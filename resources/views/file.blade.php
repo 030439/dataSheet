@@ -1,5 +1,5 @@
 <style>
-    // outdated
+   
 
 $skin: #4db6ac;
 
@@ -341,7 +341,7 @@ body {
  </div>
 </div>
 <script>
-//DOM
+
 const $ = document.querySelector.bind(document);
 
 //APP

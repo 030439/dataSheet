@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\http\Controllers\UploaderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +19,11 @@ Route::get('/', function () {
 Route::get('/file', function () {
     return view('file');
 });
-Route::get('file-import-export', [UserController::class, 'fileImportExport']);
-Route::post('file-import', [UserController::class, 'fileImport'])->name('file-import');
-Route::get('file-export', [UserController::class, 'fileExport'])->name('file-export');
+Route::prefix('file')->group(function () {
+    Route::controller(UploaderController::class)->group(function(){
+        Route::get('file-import-export','fileImportExport')->name("fileImportExport");
+        Route::post('file-import', 'fileImport')->name('file-import');
+        Route::get('file-export', 'fileExport')->name('file-export');
+    });
+});
+

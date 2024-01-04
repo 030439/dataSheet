@@ -14,7 +14,7 @@
     <div class="cashier-dashboard-area">
     @include('parts.sidebar')
       <div class=" cashier-dashboard-main">
-       
+      @include('parts.frontheader')
         <div class="cashier-breadcrumb-area px-7 py-9 bg-white mb-5 hidden">
           <div class="cashier-breadcrumb-area-inner px-0.5">
             <h5 class="text-[20px] text-heading font-bold mb-3 leading-none">Dashboard </h5>
@@ -34,6 +34,7 @@
                   <span class="cashier-input-field-file">
                     <input type="file" id="fileUpload">
                     <label for="fileUpload">Import Biller</label>
+                    <progress id="progressBar" value="0" max="100"></progress>
                   </span>
                 </span>
               </div>
@@ -700,3 +701,33 @@
 
 
   @include('parts.footer')
+  <script>
+        function uploadFile() {
+            var input = document.getElementById('fileInput');
+            var file = input.files[0];
+
+            if (file) {
+                var formData = new FormData();
+                formData.append('file', file);
+
+                var xhr = new XMLHttpRequest();
+
+                xhr.upload.onprogress = function (event) {
+                    if (event.lengthComputable) {
+                        var percentComplete = (event.loaded / event.total) * 100;
+                        var progressBar = document.getElementById('progressBar');
+                        progressBar.value = percentComplete;
+                    }
+                };
+
+                xhr.onload = function () {
+                    // Handle the response after the file is uploaded
+                    console.log(xhr.responseText);
+                };
+
+                // Replace 'upload.php' with the server-side script handling the file upload
+                xhr.open('POST', 'upload.php', true);
+                xhr.send(formData);
+            }
+        }
+    </script>

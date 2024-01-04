@@ -11,33 +11,32 @@ return new class extends Migration
      */
     public function up()
 {
-   
-        Schema::create('your_table_name', function (Blueprint $table) {
+        Schema::create('sheet_data', function (Blueprint $table) {
             $table->id();
             $table->string('Ticket_Id');
-            $table->timestamp('Time');
+            $table->string('Time');
             $table->string('Action');
             $table->string('Type');
             $table->string('Type_Detail');
             $table->string('Account');
             $table->string('Parent');
-            $table->decimal('Amount', 10, 2);
+            $table->string('Amount');
             $table->string('Script');
-            $table->decimal('Price', 10, 2);
-            $table->decimal('Close_Price', 10, 2);
-            $table->decimal('Total_PnL', 10, 2);
-            $table->decimal('SL', 10, 2);
-            $table->decimal('TP', 10, 2);
+            $table->string('Price');
+            $table->string('Close_Price');
+            $table->string('Total_PnL');
+            $table->string('SL');
+            $table->string('TP');
             $table->string('Open_Position');
-            $table->timestamp('Open_Date')->nullable();
+            $table->string('Open_Date')->nullable();
             $table->string('Time_Diff');
             $table->string('Created_By');
             $table->string('Comment');
             $table->string('IP');
             $table->string('Script_Description');
-            $table->timestamp('Expiry_Date')->nullable();  // Set the default value to null
+            $table->string('Expiry_Date')->nullable();  // Set the default value to null
             $table->string('Method');
-            $table->decimal('Contract_Size', 10, 2);
+            $table->string('Contract_Size');
             $table->timestamps();
         });
     

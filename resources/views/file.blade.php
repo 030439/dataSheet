@@ -733,7 +733,7 @@
                     success: function (response) {
                         // Simulate a 2-second delay before handling the response
                         setTimeout(function () {
-                            alert("asdf");
+                           consolde.log(res)
                             // You can perform further actions with the response here
                         }, 2000);
                     }

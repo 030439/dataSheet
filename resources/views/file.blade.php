@@ -1280,3 +1280,5 @@
     </div>
   </main>
 
+
+  @include('parts.footer')

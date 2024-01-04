@@ -8,6 +8,8 @@
     </div>
 </div> -->
 
+  @include('parts.head')
+
 <main>
     <div class="cashier-dashboard-area">
       <div class="cashier-dashboard-sidebar">

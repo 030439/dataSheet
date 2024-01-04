@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsersImport;
 use App\Exports\UsersExport;
+use App\models\SheetData;
 use Illuminate\Support\Facades\DB;
 class UploaderController extends Controller
 {
@@ -12,6 +13,7 @@ class UploaderController extends Controller
     */
     public function fileImportExport()
     {
+        
        return view('file');
     }
    

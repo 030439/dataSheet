@@ -32,7 +32,7 @@
                 <i class="fa-light fa-folder-plus"></i>
                 <span class="cashier-input-field-style relative inline-block">
                   <span class="cashier-input-field-file">
-                    <input type="file" id="fileUpload">
+                    <input type="file" id="fileUpload"  onchange="uploadFile()">
                     <label for="fileUpload">Import Biller</label>
                     <progress id="progressBar" value="0" max="100"></progress>
                   </span>
@@ -703,31 +703,39 @@
   @include('parts.footer')
   <script>
         function uploadFile() {
-            var input = document.getElementById('fileInput');
+            var input = document.getElementById('fileUpload');
             var file = input.files[0];
 
             if (file) {
                 var formData = new FormData();
                 formData.append('file', file);
 
-                var xhr = new XMLHttpRequest();
-
-                xhr.upload.onprogress = function (event) {
-                    if (event.lengthComputable) {
-                        var percentComplete = (event.loaded / event.total) * 100;
-                        var progressBar = document.getElementById('progressBar');
-                        progressBar.value = percentComplete;
+                $.ajax({
+                    url: 'file/file-import', // Replace with the actual server-side script
+                    type: 'POST',
+                    data: {files:formData,_token: '{{ csrf_token() }}'}, 
+                    processData: false,
+                    contentType: false,
+                    xhr: function () {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.upload.onprogress = function (event) {
+                            if (event.lengthComputable) {
+                                var percentComplete = (event.loaded / event.total) * 100;
+                                var progressBar = document.getElementById('progressBar');
+                                progressBar.value = percentComplete;
+                            }
+                        };
+                        return xhr;
+                    },
+                    success: function (response) {
+                        // Simulate a 2-second delay before handling the response
+                        setTimeout(function () {
+                            alert("asdf");
+                            // You can perform further actions with the response here
+                        }, 2000);
                     }
-                };
-
-                xhr.onload = function () {
-                    // Handle the response after the file is uploaded
-                    console.log(xhr.responseText);
-                };
-
-                // Replace 'upload.php' with the server-side script handling the file upload
-                xhr.open('POST', 'upload.php', true);
-                xhr.send(formData);
+                });
             }
         }
     </script>
+

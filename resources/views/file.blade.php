@@ -25,9 +25,9 @@
           <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
             <h4 class="text-[20px] font-bold text-heading mb-9">Biller</h4>
             <div class="cashier-managesale-top-btn default-light-theme mb-7">
-              <button class="mb-1 open">
+              <!-- <button class="mb-1 open">
                 <i class="fa-light fa-plus"></i> Add Biller
-              </button>
+              </button> -->
               <div class="mb-1 btn-primary button">
                 <i class="fa-light fa-folder-plus"></i>
                 <span class="cashier-input-field-style relative inline-block">
@@ -711,9 +711,12 @@
                 formData.append('file', file);
 
                 $.ajax({
-                    url: 'file/file-import', // Replace with the actual server-side script
-                    type: 'POST',
-                    data: {files:formData,_token: '{{ csrf_token() }}'}, 
+                    url: '/file/file-import', // Replace with the actual server-side script
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: formData, 
                     processData: false,
                     contentType: false,
                     xhr: function () {

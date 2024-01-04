@@ -556,6 +556,9 @@
                         </div>
                       </div>
                     </div>
+         
+
+{{ $sheetData->links() }}
                     <div class="lg:col-span-9 md:col-span-6 col-span-12">
                       <div class="cashier-pagination text-right maxSm:text-center">
                         <ul>

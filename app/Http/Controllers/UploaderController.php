@@ -13,8 +13,9 @@ class UploaderController extends Controller
     */
     public function fileImportExport()
     {
-        
-       return view('file');
+        $sheetData = DB::table('sheet_data')->paginate(10); 
+
+        return view('file', ['sheetData' => $sheetData]);
     }
    
     /**

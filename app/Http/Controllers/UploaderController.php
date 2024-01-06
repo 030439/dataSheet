@@ -6,61 +6,25 @@ use App\Imports\UsersImport;
 use App\Exports\UsersExport;
 use App\models\SheetData;
 use Illuminate\Support\Facades\DB;
+use App\Services\RecordService;
 class UploaderController extends Controller
 {
+    private $recordService;
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function index(Request $request)
-{
-    $page = $request->input('page', 1);
-    $limit = $request->input('limit', 10); // Set a default limit if needed
-
-    $skip = ($page - 1) * $limit;
-
-    $data = SheetData::skip($skip)->take($limit)->get();
-    $totalCount = SheetData::count(); // Total count of records
-
-    $formattedData = [];
-    $c=0;
-    foreach ($data as $k=> $item) {
-        $c=$k;
-        if($k!=0){
-            $formattedData[] = [
-                'Ticket_Id' => $item->Ticket_Id,
-                'Time' => $item->Time,
-                'Action' => $item->Action,
-                'Type' => $item->Type,
-                'Type_Detail' => $item->Type_Detail,
-                'Account' => $item->Account,
-                'Parent' => $item->Parent,
-                'Amount' => $item->Amount,
-                'Script' => $item->Script,
-                'Price' => $item->Price,
-                'Close_Price' => $item->Close_Price,
-                'Total_PnL' => $item->Total_PnL,
-                'SL' => $item->SL,
-                'TP' => $item->TP,
-                'Open_Position' => $item->Open_Position,
-                'Open_Date' => $item->Open_Date,
-                'Time_Diff' => $item->Time_Diff,
-                'Created_By' => $item->Created_By,
-                'Comment' => $item->Comment,
-                'IP' => $item->IP,
-                'Script_Description' => $item->Script_Description,
-                'Expiry_Date' => $item->Expiry_Date,
-                'Method' => $item->Method,
-                'Contract_Size' => $item->Contract_Size,
-            ];
-        }
+    public function __construct(RecordService $recordService)
+    {
+        $this->recordService = $recordService;
     }
+    public function index(Request $request){
+        $page = $request->input('page', 1);
+        $limit = $request->input('limit', 10);
 
-    return response()->json([
-        'data' => $formattedData,
-        'total' => $totalCount,
-    ]);  
-   
-}
+        $result = $this->recordService->getRecords($page, $limit);
+
+        return response()->json($result);
+    }
 
     public function get()
     {

@@ -9,6 +9,11 @@
   <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/nice-select.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/datastyle.css') }}">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/b-print-2.3.3/fh-3.3.1/r-2.4.0/sb-1.4.0/datatables.min.css'>
+
+
   <title>Cashiar – Tailwind HTML5 Accounting Dashboard Template</title>
   <script src="https://cdn.tailwindcss.com/"></script>
   <script src="{{ asset('assets/js/tailwind-config.js') }}"></script>

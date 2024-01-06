@@ -14,14 +14,12 @@ use App\http\Controllers\UploaderController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/file', function () {
     return view('file');
 });
+
 Route::prefix('file')->group(function () {
     Route::controller(UploaderController::class)->group(function(){
-        Route::get('file-import-export','fileImportExport')->name("fileImportExport");
+        Route::get('data','index')->name("data");
         Route::post('file-import', 'fileImport')->name('file-import');
         Route::get('file-export', 'fileExport')->name('file-export');
     });

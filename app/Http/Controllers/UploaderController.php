@@ -17,90 +17,24 @@ class UploaderController extends Controller
     {
         $this->recordService = $recordService;
     }
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $page = $request->input('page', 1);
         $limit = $request->input('limit', 10);
 
-        $result = $this->recordService->getRecords($page, $limit);
-
-        return response()->json($result);
+        return response()->json($this->recordService->getRecords($page, $limit));
     }
 
-    public function get()
-    {
-        $numberOfRecords = 10;
-
-        // Fetch a limited number of records from the database using the Eloquent model
-        $data = SheetData::take($numberOfRecords)->get();
-
-        // Transform the data to match DataTable's expected structure
-        $formattedData = [];
-        $totalCount = SheetData::count();
-        foreach ($data as $k=> $item) {
-            if($k!=0){
-                $formattedData[] = [
-                    'Ticket_Id' => $item->Ticket_Id,
-                    'Time' => $item->Time,
-                    'Action' => $item->Action,
-                    'Type' => $item->Type,
-                    'Type_Detail' => $item->Type_Detail,
-                    'Account' => $item->Account,
-                    'Parent' => $item->Parent,
-                    'Amount' => $item->Amount,
-                    'Script' => $item->Script,
-                    'Price' => $item->Price,
-                    'Close_Price' => $item->Close_Price,
-                    'Total_PnL' => $item->Total_PnL,
-                    'SL' => $item->SL,
-                    'TP' => $item->TP,
-                    'Open_Position' => $item->Open_Position,
-                    'Open_Date' => $item->Open_Date,
-                    'Time_Diff' => $item->Time_Diff,
-                    'Created_By' => $item->Created_By,
-                    'Comment' => $item->Comment,
-                    'IP' => $item->IP,
-                    'Script_Description' => $item->Script_Description,
-                    'Expiry_Date' => $item->Expiry_Date,
-                    'Method' => $item->Method,
-                    'Contract_Size' => $item->Contract_Size,
-                ];
-            }
-        }
-
-        return response()->json([
-            'data' => $formattedData,
-            'total' => $totalCount,
-        ]);
-    }
+   
    
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function fileImport(Request $request) 
+    public function fileImport(Request $request)
     {
-        try {
-            $request->validate([
-                'file' => 'required|mimes:xls,xlsx', // Adjust the allowed file types and size
-            ]);
+        $file = $request->file('file');
 
-            if ($request->file('file')->isValid()) {
-                $file = $request->file('file');
-                $path = $file->storeAs('uploads', $file->getClientOriginalName());
-                $fullPath = storage_path('app/' . $path);
-                $data = Excel::toArray([], $fullPath);
-                $rows = $data[0];
-                foreach ($rows as $k=> $record) {
-                  
-                        $this->sheetData($record);
-                                 
-                }
-                return response()->json(['success' => true, 'message' => 'File uploaded successfully']);
-            } else {
-                return response()->json(['success' => false, 'message' => 'File is not valid']);
-            }
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()]);
-        }
+        return response()->json($this->recordService->fileImport($file));
     }
     public function sheetData($record){
         $res=DB::table('sheet_data')->insert([

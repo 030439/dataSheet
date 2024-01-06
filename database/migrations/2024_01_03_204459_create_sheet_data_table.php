@@ -18,17 +18,17 @@ return new class extends Migration
             $table->string('Action');
             $table->string('Type');
             $table->string('Type_Detail');
-            $table->string('Account');
+            $table->decimal('Account', 10, 2);
             $table->string('Parent');
             $table->string('Amount');
             $table->string('Script');
-            $table->string('Price');
-            $table->string('Close_Price');
-            $table->string('Total_PnL');
-            $table->string('SL');
-            $table->string('TP');
+            $table->decimal('Price', 10, 2);
+            $table->decimal('Close_Price', 10, 2);
+            $table->decimal('Total_PnL', 10, 2);
+            $table->decimal('SL', 10, 2);
+            $table->decimal('TP', 10, 2);
             $table->string('Open_Position');
-            $table->string('Open_Date')->nullable();
+            $table->date('Open_Date')->nullable();
             $table->string('Time_Diff');
             $table->string('Created_By');
             $table->string('Comment');
@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('Script_Description');
             $table->string('Expiry_Date')->nullable();  // Set the default value to null
             $table->string('Method');
-            $table->string('Contract_Size');
+            $table->decimal('Contract_Size', 10, 2);
             $table->timestamps();
         });
     

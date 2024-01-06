@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Models\SheetData;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator; 
 
 class RecordService
 {
@@ -58,7 +59,7 @@ class RecordService
     public function fileImport($file)
     {
         $validator = Validator::make(['file' => $file], [
-            'file' => 'required|mimes:xls,xlsx',
+            'file' => 'mimes:xls,xlsx',
         ]);
 
         if ($validator->fails()) {
@@ -81,17 +82,18 @@ class RecordService
 
                 $missingColumns = array_diff($requiredColumns, $firstRow);
 
-                if (!empty($missingColumns)) {
-                    $missingColumnsStr = implode(', ', $missingColumns);
-                    return [
-                        'success' => false,
-                        'message' => "The following required columns are missing in the file: $missingColumnsStr.",
-                    ];
-                }
+                // if (!empty($missingColumns)) {
+                //     $missingColumnsStr = implode(', ', $missingColumns);
+                //     return [
+                //         'success' => false,
+                //         'message' => "The following required columns are missing in the file: $missingColumnsStr.",
+                //     ];
+                // }
 
                 // Proceed with import
                 $rows = $data[0];
                 foreach ($rows as $k => $record) {
+                    $this->validateRecord($record);
                     $this->sheetData($record);
                 }
 
@@ -113,7 +115,28 @@ class RecordService
             $res = DB::table('sheet_data')->insert([
                 'Ticket_Id' => strval($record[0] ?? ''),
                 'Time' => strval($record[1] ?? ''),
-                // ... (include other fields)
+                'Action' => strval($record[2] ?? ''),
+                'Type' => strval($record[3] ?? ''),
+                'Type_Detail' => strval($record[4] ?? ''),
+                'Account' => strval($record[5] ?? ''),
+                'Parent' => strval($record[6] ?? ''),
+                'Amount' => strval($record[7] ?? ''),
+                'Script' => strval($record[8] ?? ''),
+                'Price' => strval($record[9] ?? ''),
+                'Close_Price' => strval($record[10] ?? ''),
+                'Total_PnL' => strval($record[11] ?? ''),
+                'SL' => strval($record[12] ?? ''),
+                'TP' => strval($record[13] ?? ''),
+                'Open_Position' => strval($record[14] ?? ''),
+                'Open_Date' => strval($record[15] ?? ''),
+                'Time_Diff' => strval($record[16] ?? ''),
+                'Created_By' => strval($record[17] ?? ''),
+                'Comment' => strval($record[18] ?? ''),
+                'IP' => strval($record[19] ?? ''),
+                'Script_Description' => strval($record[20] ?? ''),
+                'Expiry_Date' => strval($record[21] ?? ''),
+                'Method' => strval($record[22] ?? ''),
+                'Contract_Size' => strval($record[23] ?? ''),
             ]);
 
             DB::commit();
@@ -129,5 +152,40 @@ class RecordService
     public function fileExport()
     {
         return Excel::download(new UsersExport, 'users-collection.xlsx');
+    }
+    public function validateRecord(array $record)
+    {
+        $validator = Validator::make($record, [
+            'Ticket_Id' => 'string',
+            'Time' => 'string',
+            'Action' => 'string',
+            'Type' => 'string',
+            'Type_Detail' => 'string',
+            'Account' => 'numeric', // Adjust validation rules based on your requirements
+            'Parent' => 'string',
+            'Amount' => 'numeric',
+            'Script' => 'string',
+            'Price' => 'numeric',
+            'Close_Price' => 'numeric',
+            'Total_PnL' => 'numeric',
+            'SL' => 'numeric',
+            'TP' => 'numeric',
+            'Open_Position' => 'numeric',
+            'Open_Date' => 'nullable|date', // Adjust validation rules based on your requirements
+            'Time_Diff' => 'numeric',
+            'Created_By' => 'string',
+            'Comment' => 'string',
+            'IP' => 'string',
+            'Script_Description' => 'string',
+            'Expiry_Date' => 'nullable|date', // Adjust validation rules based on your requirements
+            'Method' => 'string',
+            'Contract_Size' => 'numeric',
+        ]);
+
+        if ($validator->fails()) {
+            throw ValidationException::withMessages($validator->errors()->toArray());
+        }
+
+        return true;
     }
 }

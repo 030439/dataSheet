@@ -10,6 +10,7 @@
 
   @include('parts.head')
 
+
 <main>
     <div class="cashier-dashboard-area">
     @include('parts.sidebar')
@@ -228,14 +229,37 @@
                         return xhr;
                     },
                     success: function (response) {
-                        // Simulate a 2-second delay before handling the response
-                        setTimeout(function () {
-                           consolde.log(res)
-                            // You can perform further actions with the response here
-                        }, 2000);
-                    }
+                // Check the server response and display Toastr messages
+                if (response.success) {
+                    toastr.success('File uploaded successfully', 'Success');
+                    // You can perform further actions after a successful upload
+                } else {
+                    toastr.error('File is not valid', 'Error');
+                    // You can handle other error scenarios here
+                }
+            },
+            error: function (error) {
+                toastr.error('An error occurred during file upload', 'Error');
+                console.error(error);
+            }
                 });
             }
         }
     </script>
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>  
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">  
+<script>  
+  @if(Session::has('success'))  
+        toastr.success("{{ Session::get('success') }}");  
+  @endif  
+  @if(Session::has('info'))  
+        toastr.info("{{ Session::get('info') }}");  
+  @endif  
+  @if(Session::has('warning'))  
+        toastr.warning("{{ Session::get('warning') }}");  
+  @endif  
+  @if(Session::has('error'))  
+        toastr.error("{{ Session::get('error') }}");  
+  @endif  
+</script>  

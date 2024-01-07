@@ -29,6 +29,7 @@ Route::prefix('file')->group(function () {
 });
 Route::controller(SuperAdminController::class)->group(function(){
     Route::get('/superadmin',"index");
+    Route::get('/user-roles','roles')->name('user-roles');
 });
 Route::controller(AdminController::class)->group(function(){
     Route::get('/admin',"index");

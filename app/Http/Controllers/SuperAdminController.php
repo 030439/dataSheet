@@ -17,4 +17,7 @@ class SuperAdminController extends Controller
     {
         return view('superadmin.home');
     }
+    public function roles(){
+        return view('superadmin.user_roles');
+    }
 }

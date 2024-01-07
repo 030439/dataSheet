@@ -24,7 +24,9 @@ Route::prefix('file')->group(function () {
         Route::get('file-export', 'fileExport')->name('file-export');
     });
 });
-// routes/web.php
+Route::get('/admin', 'AdminController@index');
+
+Route::get('/superadmin', 'SuperAdminController@index');
 
 Route::get('/file-route', 'UploaderController@file')->name('file_route');
 

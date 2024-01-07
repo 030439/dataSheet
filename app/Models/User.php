@@ -22,6 +22,13 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+    public function roles()
+
+    {
+        return $this
+            ->belongsToMany('App\Role')
+            ->withTimestamps();
+    }
 
     /**
      * The attributes that should be hidden for serialization.

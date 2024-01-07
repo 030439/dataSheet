@@ -34,7 +34,7 @@ Route::controller(AdminController::class)->group(function(){
     Route::get('/admin',"index");
 });
 Route::controller(UserController::class)->group(function(){
-    Route::get('/login',"index");
+    Route::get('/login',"index")->name("login");
 });
 Route::get('/file-route', 'UploaderController@file')->name('file_route');
 

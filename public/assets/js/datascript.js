@@ -16,8 +16,8 @@ ready(() => {
         ajax: {
             url: "/file/data", // Adjust the route based on your Laravel route
             dataSrc: "data",
-            processing: true,
-            serverSide: true,
+            // processing: true,
+            // serverSide: true,
             data: function (params) {
                 // Include additional parameters for server-side processing
                 params.page = Math.floor(params.start / params.length) + 1; // Calculate current page

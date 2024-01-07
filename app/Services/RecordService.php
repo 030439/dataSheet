@@ -54,8 +54,8 @@ class RecordService
         $draw = request()->input('draw', 1);
         return [
             'total' => $totalCount,
-            'draw' => 1, // Include the draw property
-            'recordsTotal' => $totalCount, // Include the recordsTotal property
+            // 'draw' => 1, // Include the draw property
+            // 'recordsTotal' => $totalCount, // Include the recordsTotal property
             'recordsFiltered' => $totalCount, // Include the recordsFiltered property
             'data' => $formattedData,
         ];

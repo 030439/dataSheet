@@ -17,7 +17,7 @@ use App\http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('file');
+    return view('file_data');
 });
 
 Route::prefix('file')->group(function () {

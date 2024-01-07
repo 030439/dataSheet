@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,7 +9,7 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-{
+    {
         Schema::create('sheet_data', function (Blueprint $table) {
             $table->id();
             $table->string('Ticket_Id');
@@ -18,7 +17,7 @@ return new class extends Migration
             $table->string('Action');
             $table->string('Type');
             $table->string('Type_Detail');
-            $table->decimal('Account', 10, 2);
+            $table->decimal('Account', 10, 2)->nullable(); // Make 'Account' nullable
             $table->string('Parent');
             $table->string('Amount');
             $table->string('Script');
@@ -39,9 +38,7 @@ return new class extends Migration
             $table->decimal('Contract_Size', 10, 2);
             $table->timestamps();
         });
-    
-}
-
+    }
 
     /**
      * Reverse the migrations.

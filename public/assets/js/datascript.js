@@ -11,14 +11,16 @@ ready(() => {
         language: {
             // url: "https://cdn.datatables.net/plug-ins/1.11.3/i18n/ru.json"
         },
-        serverSide: true, // Enable server-side processing
 
+        serverSide: true, // Enable server-side processing
         ajax: {
             url: "/file/data", // Adjust the route based on your Laravel route
             dataSrc: "data",
+            processing: true,
+            serverSide: true,
             data: function (params) {
                 // Include additional parameters for server-side processing
-                params.page = params.start / params.length + 1; // Calculate current page
+                params.page = Math.floor(params.start / params.length) + 1; // Calculate current page
                 params.limit = params.length; // Number of records per page
                 // Add any other parameters you need for server-side processing
                 return params;
@@ -31,7 +33,6 @@ ready(() => {
         responsive: true,
         destroy: true,
         deferRender: true,
-
         /* responsive */
         responsive: {
             details: {
@@ -45,8 +46,7 @@ ready(() => {
                     let data = $.map(columns, (col, i) => {
                         return col.hidden
                             ? col.data
-                                ? `
-                                        <tr class="d-flex flex-column mb-3"
+                                ? `<tr class="d-flex flex-column mb-3"
                                           data-dt-row="${col.rowIndex}"
                                           data-dt-column="${col.columnIndex}">
                                           <td class="d-flex w-100">
@@ -55,8 +55,7 @@ ready(() => {
                                           <td class="d-flex w-100">
                                             ${col.data}
                                           </td>
-                                        </tr>
-                                        `
+                                        </tr>`
                                 : ""
                             : "";
                     }).join("");
@@ -67,8 +66,6 @@ ready(() => {
                 },
             },
         },
-        /* end responsive */
-
         /* columnDefs */
         columns: [
             { title: "Ticket_Id", data: "Ticket_Id" },

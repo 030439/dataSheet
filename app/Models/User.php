@@ -29,6 +29,14 @@ class User extends Authenticatable
             ->belongsToMany('App\Role')
             ->withTimestamps();
     }
+    public function authorizeRoles($roles)
+
+{
+  if ($this->hasAnyRole($roles)) {
+    return true;
+  }
+  abort(401, 'This action is unauthorized.');
+}
 
     /**
      * The attributes that should be hidden for serialization.

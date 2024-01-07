@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\http\Controllers\UploaderController;
+use App\http\Controllers\SuperAdminController;
+use App\http\Controllers\AdminController;
+use App\http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,10 +27,15 @@ Route::prefix('file')->group(function () {
         Route::get('file-export', 'fileExport')->name('file-export');
     });
 });
-Route::get('/admin', 'AdminController@index');
-
-Route::get('/superadmin', 'SuperAdminController@index');
-
+Route::controller(SuperAdminController::class)->group(function(){
+    Route::get('/superadmin',"index");
+});
+Route::controller(AdminController::class)->group(function(){
+    Route::get('/admin',"index");
+});
+Route::controller(UserController::class)->group(function(){
+    Route::get('/login',"index");
+});
 Route::get('/file-route', 'UploaderController@file')->name('file_route');
 
 
